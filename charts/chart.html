@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Enrollment Line Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        /* Add some basic styling to the chart container */
+        #chart-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #F8F6F0;
+        }
+        body {
+         background-color: #2E1A47;
+        }
+        h1 {
+            font-weight: bold;
+            color: #F8F6F0;
+            text-align: center;
+            text-transform: uppercase;
+            font-style: normal;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            the chart showing the number of pupils in each class
+        </h1>
+    </header>
+    <div id="chart-container">
+        <canvas id="enrollmentChart"></canvas>
+    </div>
+
+    <script>
+        // data for class enrollment
+        var enrollmentData = {
+            labels: ["Grade 8 A","Grade 8 B", "Grade 9 A", "Grade 9 B", "Grade 10 A", "Grade 10 B", "Grade 11 A", "Grade 11 B", "Grade 12  A", "Grade 12 B",],
+            datasets: [
+                {
+                    label: "Class A",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1,
+                    fill: true,
+                    data: [90, 70, 100, 110, 70, 60, 120, 100, 50, 65] 
+                    
+                },
+                {
+                    label: "Class B",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    borderWidth: 1,
+                    fill: true,
+                    data: [100, 105, 115, 120, 80, 90, 80, 90, 70, 85] 
+                }
+            ]
+        };
+
+        // Configuration options for the chart
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Pupils'
+                        
+                    }
+                }
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('enrollmentChart').getContext('2d');
+
+        // Create the line chart
+        var enrollmentChart = new Chart(ctx, {
+            type: 'line',
+            data: enrollmentData,
+            options: options
+        });
+
+        // Determine the class with the most pupils
+        var classAData = enrollmentData.datasets[0].data;
+        var classBData = enrollmentData.datasets[1].data;
+        var grades = enrollmentData.labels;
+        var mostPupilsClass = "";
+        var maxPupils = 0;
+
+        for (var i = 0; i < grades.length; i++) {
+            var totalPupils = classAData[i] + classBData[i];
+            if (totalPupils > maxPupils) {
+                maxPupils = totalPupils;
+                mostPupilsClass = "Class " + (i + 8);
+            }
+        }
+
+        console.log("The class with the most pupils is " + mostPupilsClass + " with " + maxPupils + " pupils.");
+    </script>
+</body>
+</html>
